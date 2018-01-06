@@ -121,7 +121,7 @@
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont systemFontOfSize:18];
         cell.textLabel.textColor = [UIColor orangeColor];
-        cell.textLabel.text = @"登录";
+        cell.textLabel.text = @"给我们打分";
     }
     
     return cell;
@@ -149,13 +149,28 @@
 //每行选中
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) {
-        NSLog(@"分享");
+        //分享
     } else if (indexPath.section == 0 && indexPath.row == 1) {
-        NSLog(@"意见反馈");
+        //意见反馈
     } else if (indexPath.section == 1 && indexPath.row == 0) {
-        NSLog(@"清除缓存");
+        //清除缓存
     } else if (indexPath.section == 2 && indexPath.row == 1) {
-        NSLog(@"登录");
+        //给app打分
+        SKStoreProductViewController *storeProductViewContorller = [[SKStoreProductViewController alloc] init];
+        storeProductViewContorller.delegate = self;
+        
+        NSString *appID = @"";//给定项目的appid
+        [storeProductViewContorller loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:appID}completionBlock:^(BOOL result, NSError *error) {
+            if(error) {
+                NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
+            } else {
+                //模态弹出appstore
+                [self presentViewController:storeProductViewContorller animated:YES completion:^{
+                    
+                }];
+            }
+        }];
+        
     }
 }
 
